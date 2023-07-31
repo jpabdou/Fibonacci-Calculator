@@ -1,5 +1,6 @@
 import { PrismaClient, Prisma } from '@prisma/client';
 const prisma = new PrismaClient();
+import { seedInit } from './test-seed';
 
 export const fibonacciBase: Prisma.FibonacciCreateInput[] = [
     {
@@ -21,6 +22,7 @@ async function main() {
       console.log(`Created fibonacci entry with id: ${fibonacciEntry.id}`);
     };
     console.log(`Seeding finished.`);
+    await seedInit();
   };
   
   main()

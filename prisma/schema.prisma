@@ -14,3 +14,8 @@ model Fibonacci {
   id Int @id @unique
   fibonacci_number Int
 }
+
+model TestFibonacci {
+  id Int @id @unique
+  fibonacci_number Int
+}
