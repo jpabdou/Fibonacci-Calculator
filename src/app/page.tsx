@@ -1,5 +1,6 @@
 "use client";
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 
 type FormValues = {
   n_value: number;
@@ -7,7 +8,11 @@ type FormValues = {
 
 export default function Home() {
   const { register, handleSubmit, formState: { errors } } = useForm<FormValues>();
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const router = useRouter();
+
+  const onSubmit = handleSubmit((data) => {
+    console.log(data)
+    router.push(`/results/${data.n_value}`)});
   const calculateFibonacci = async (num: number) => {
     const calcReq = {
       "method": "GET",
@@ -37,7 +42,7 @@ export default function Home() {
               <p role="alert">Number is required.</p>
             )}
 
-            <input className={"self-center w-52 rounded-md border-2 p-3 border-black object-left bg-lime-700 text-white cursor-pointer"} type="submit" />
+            <input className={"self-center w-52 rounded-md border-2 p-3 border-black object-left bg-lime-700 text-white cursor-pointer"} data-testid="submit" type="submit" />
           </form>
           <p>{}</p>
     </main>

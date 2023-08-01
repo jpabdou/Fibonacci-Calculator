@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '../../../lib/prisma';
+import { PrismaClient } from '@prisma/client';
 import { calculation } from '@/app/api/calculate';
+let prisma = new PrismaClient();
 
 export async function GET(request: Request, {params} : {params: {n_value: string}}) {
     if (request.method !== "GET") {

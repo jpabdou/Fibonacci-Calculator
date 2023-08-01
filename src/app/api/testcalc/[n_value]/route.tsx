@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '../../../lib/prisma';
+import { PrismaClient } from '@prisma/client';
 import { calculation } from '@/app/api/calculate';
+let prisma = new PrismaClient();
 
 export async function GET(request: Request, {params} : {params: {n_value: string}}) {
     if (request.method !== "GET") {
@@ -9,7 +10,7 @@ export async function GET(request: Request, {params} : {params: {n_value: string
     try {
         let n_value : number = parseInt(params.n_value);
         if (Number.isNaN(n_value)) return NextResponse.json({message: "Input was not a number, please input a number >= 0"});
-        if (n_value < 0) return NextResponse.json({message: "Number greater than or equal to 0 only"});
+        if (n_value < 0) return NextResponse.json({message: "Please input a number greater than or equal to 0."});
         if (n_value > 76) n_value = 76;
 
         let fibonacciNumbers = await prisma.testFibonacci.findMany(
