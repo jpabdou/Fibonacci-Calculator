@@ -14,7 +14,7 @@ export default function Results( {params} : Props) {
   useEffect(()=>{
     if (params.n_value.includes('.')) setError('Please input a whole number. No decimals.');
 
-    let n = parseInt(params.n_value);
+    let n = Number(params.n_value);
     if (Number.isNaN(n)) {
       setError("Entry was not a number. Please navigate back to home.");
     }
@@ -35,16 +35,19 @@ export default function Results( {params} : Props) {
   
   return (
     <main className="flex h-screen flex-col items-center text-center justify-evenly">
-      <h1 className='text-3xl font-bold'>Results Page</h1>
+      <div>
+      <h1 className='text-3xl font-bold my-2'>Results Page</h1>
+      <Link data-testid="link" href={"/"} className="underline font-bold">Home</Link>
+      </div>
       {
         results.length ===0 ? 
           <h1>{error}</h1> :
-          <>
-            <h2 className='text-2xl font-bold'>{`Here are the results for the first ${params.n_value} numbers in the Fibonacci sequence!`}</h2>
+          <div>
+            <h2 className='text-2xl font-bold my-3'>{`Here are the results for the first ${params.n_value} numbers in the Fibonacci sequence:`}</h2>
             <p className="font-bold" data-testid="results">{results.slice(1,results.length-1)}</p>
-        </>
+        </div>
       }
-      <Link data-testid="link" href={"/"}>Home</Link>
+      
      </main>
   )
 }
