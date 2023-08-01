@@ -9,7 +9,7 @@ export async function GET(request: Request, {params} : {params: {n_value: string
     try {
         let n_value : number = parseInt(params.n_value);
 
-        let fibonacciNumbers = await prisma.testFibonacci.findMany(
+        let fibonacciNumbers = await prisma.fibonacci.findMany(
             {
                 where: 
                 {
@@ -35,7 +35,7 @@ export async function GET(request: Request, {params} : {params: {n_value: string
         if (originalIndex !== fibonacciNumbers.length) {
             let inserts = [];
             for (let entry of fibonacciNumbers.slice(originalIndex)) {
-                let result = prisma.testFibonacci.create({data: entry });
+                let result = prisma.fibonacci.create({data: entry });
                 inserts.push(result);
             }
             let transactionRes = await prisma.$transaction(inserts);

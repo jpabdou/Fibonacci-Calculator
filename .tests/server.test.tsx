@@ -41,19 +41,7 @@ describe('test server', ()=>{
                     "fibonacci_number": 3
                 }
             ],
-            "createdEntries": [               {
-                "id": 2,
-                "fibonacci_number": 1
-            },                
-            {
-                "id": 3,
-                "fibonacci_number": 2
-            },
-            {
-                "id": 4,
-                "fibonacci_number": 3
-            }
-            ]
+            "createdCount": 3
         };
 
 
@@ -104,8 +92,8 @@ describe('test server', ()=>{
                 expect(data).toEqual(expectedRes1.data);
                 expect(res.status).toBe(200);
             } catch (e) {
-                console.log(e)
-            }
+                console.log(e);
+            };
 
         });
 
@@ -114,14 +102,14 @@ describe('test server', ()=>{
                 const req : Request = new Request("http://localhost:3000/api/testcalc/5");
                 const res = await GET(req, {params: {n_value: "5"}});
     
-                const {data, createdEntries} = await res.json();
+                const {data, createdCount} = await res.json();
     
                 expect(res.status).toBe(200);
                 expect(data).toEqual(expectedRes2.data);
-                expect(createdEntries).toEqual(expectedRes2.createdEntries);
+                expect(createdCount).toEqual(expectedRes2.createdCount);
             } catch (e) {
-                console.log(e)
-            }
+                console.log(e);
+            };
 
 
             
