@@ -1,10 +1,38 @@
+"use client";
+import { useForm } from 'react-hook-form';
+
+type FormValues = {
+  n_value: number;
+};
+
 export default function Home() {
+  const { register, handleSubmit, formState: { errors } } = useForm<FormValues>();
+  const onSubmit = handleSubmit((data) => console.log(data));
+  const calculateFibonacci = async (num: number) => {
+    const calcReq = {
+      "method": "GET",
+      'Content-Type': 'application/json'
+    };
+    try {
+      let url : string = `api/fibcalc/${num}`;
+      const response = await fetch(url, calcReq);
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
+    <main className="flex h-screen flex-col items-center text-center justify-evenly">
         <h1 className='text-3xl font-bold'>Welcome to Fibonacci Calculator!</h1>
-  
-      </div>
+        <form onSubmit={onSubmit} className= "h-1/2 flex flex-col flex-wrap justify-evenly">
+            <p>Enter the number <i>n</i> for the list of Fibonacci sequence you want to display up to F<sub>n</sub> (Greater than or equal to 0):<br/>
+              Note: Fibonacci numbers greater than the 76th number will not be displayed due to JavaScript/TypeScript limitations.
+            </p>
+            
+            <input type="number" placeholder="Enter number here" {...register("n_value", {required: true, min: 0, maxLength: 2})} />
+
+            <input className={"self-center w-52 rounded-md border-2 p-3 border-black object-left bg-lime-700 text-white cursor-pointer"} type="submit" />
+          </form>
     </main>
   )
 }
