@@ -25,7 +25,7 @@ afterEach(() => {
 
 
 describe('Home', ()=>{
-    it('renders a heading with welcome message', ()=>{
+    it('renders a heading with welcome message, form input, and submit button', ()=>{
         render(<Home />);
         
         const heading = screen.getByRole('heading', {
@@ -33,7 +33,7 @@ describe('Home', ()=>{
         });
         const numInput = screen.getByPlaceholderText(/enter number here/i);
 
-        const submitBtn = screen.getByTestId("submit");
+        const submitBtn = screen.getByRole("button");
 
         expect(heading).toBeInTheDocument();
 
@@ -43,22 +43,61 @@ describe('Home', ()=>{
     });
 
     it('shows form for number input and accepts inputs', async ()=>{
-        mockRouter.push("/");
-        const {user} = setup(<Home />)
-        const numInput = screen.getByPlaceholderText(/enter number here/i);
-        const submitBtn = screen.getByTestId("submit");
 
-        await user.type(numInput, "20");
+        mockRouter.push("/");
+        const {user} = setup(<Home />);
+        const numInput = screen.getByPlaceholderText(/enter number here/i);
+        const submitBtn = screen.getByRole("button");
+        fireEvent.input(numInput, {
+            target: {
+              value: "20",
+            },
+          })
 
         expect(screen.getByDisplayValue('20')).toBeInTheDocument();
         fireEvent.click(submitBtn);
+        await waitFor(() => expect(screen.queryAllByRole("alert")).toHaveLength(0));
+    });
 
-        // expect(mockRouter.pathname).toEqual('/results/2')
-        // await waitFor (()=>{expect(mockRouter).toMatchObject({
-        //     pathname: '/results/20',
-        //   });})
-        // await waitFor(() => expect(screen.getByText(/0,1,1,2,3,5,8,13,21,34,55,89,144,233,377,610,987,1597,2584,4181/i)).toBeInTheDocument());
+    it('shows error for negative number input', async ()=>{
+        const mockSubmit = jest.fn();
 
-    
-})
+        mockRouter.push("/");
+        const {user} = setup(<Home />);
+        const numInput = screen.getByPlaceholderText(/enter number here/i);
+        const submitBtn = screen.getByRole("button");
+        fireEvent.input(numInput, {
+            target: {
+              value: "-1",
+            },
+          })
+
+        expect(screen.getByDisplayValue('-1')).toBeInTheDocument();
+        fireEvent.click(submitBtn);
+        await waitFor(() => expect(screen.queryAllByRole("alert")).toHaveLength(1));
+        expect(screen.getByText('Number greater than or equal to 0 is required.')).toBeInTheDocument();
+        expect(mockSubmit).not.toBeCalled();
+        
+    });
+
+    it('accepts no input for text and shows error for no input submission on firing', async ()=>{
+        const mockSubmit = jest.fn();
+
+        mockRouter.push("/");
+        const {user} = setup(<Home />);
+        const numInput = screen.getByPlaceholderText(/enter number here/i);
+        const submitBtn = screen.getByRole("button");
+        fireEvent.input(numInput, {
+            target: {
+              value: "wrong",
+            },
+          })
+
+        expect(screen.queryByDisplayValue('wrong')).not.toBeInTheDocument();
+        fireEvent.click(submitBtn);
+        await waitFor(() => expect(screen.queryAllByRole("alert")).toHaveLength(1));
+        expect(screen.getByText('Number is required.')).toBeInTheDocument();
+        expect(mockSubmit).not.toBeCalled();
+    });
+
 })
