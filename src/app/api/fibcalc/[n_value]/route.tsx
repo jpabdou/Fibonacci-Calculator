@@ -7,8 +7,12 @@ export async function GET(request: Request, {params} : {params: {n_value: string
         return NextResponse.json({message: "Method Not Allowed"})
     }
     try {
-        let n_value : number = parseInt(params.n_value);
 
+        let n_value : number = parseInt(params.n_value);
+        if (Number.isNaN(n_value)) return NextResponse.json({message: "Input was not a number, please input a number >= 0"});
+        if (n_value < 0) return NextResponse.json({message: "Number greater than or equal to 0 only"});
+        if (n_value > 76) n_value = 76;
+        
         let fibonacciNumbers = await prisma.fibonacci.findMany(
             {
                 where: 

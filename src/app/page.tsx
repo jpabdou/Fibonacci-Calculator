@@ -29,10 +29,17 @@ export default function Home() {
               Note: Fibonacci numbers greater than the 76th number will not be displayed due to JavaScript/TypeScript limitations.
             </p>
             
-            <input type="number" placeholder="Enter number here" {...register("n_value", {required: true, min: 0, maxLength: 2})} />
+            <input type="number" placeholder="Enter number here" {...register("n_value", {required: true, min: 0})} />
+            {errors.n_value?.type === "min" && (
+              <p role="alert">Number greater than or equal to 0 is required.</p>
+            )}
+            {errors.n_value?.type === "required" && (
+              <p role="alert">Number is required.</p>
+            )}
 
             <input className={"self-center w-52 rounded-md border-2 p-3 border-black object-left bg-lime-700 text-white cursor-pointer"} type="submit" />
           </form>
+          <p>{}</p>
     </main>
   )
 }
