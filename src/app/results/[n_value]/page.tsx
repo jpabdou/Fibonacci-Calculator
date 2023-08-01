@@ -12,8 +12,9 @@ export default function Results( {params} : Props) {
   const [error, setError] = useState<string>("")
 
   useEffect(()=>{
-    let n = parseInt(params.n_value);
+    if (params.n_value.includes('.')) setError('Please input a whole number. No decimals.');
 
+    let n = parseInt(params.n_value);
     if (Number.isNaN(n)) {
       setError("Entry was not a number. Please navigate back to home.");
     }
@@ -22,13 +23,13 @@ export default function Results( {params} : Props) {
         setError("Number entered was less than or equal to 0. Please navigate back to home."));
     } else {
       calculateFibonacci(n)
-      .then(res=>{
-        let fibArr : number[] = [];
-        fibArr = res!.map(ele=>{return ele.fibonacci_number});
+        .then(res=>{
+          let fibArr : number[] = [];
+          fibArr = res!.map(ele=>{return ele.fibonacci_number});
 
-        setResults(JSON.stringify(fibArr));
-      })
-      .catch(e=>console.error(e));
+          setResults(JSON.stringify(fibArr));
+        })
+        .catch(e=>console.error(e));
     };
   },[]);
   

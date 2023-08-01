@@ -8,10 +8,10 @@ export async function GET(request: Request, {params} : {params: {n_value: string
         return NextResponse.json({message: "Method Not Allowed"})
     }
     try {
-
+        if (params.n_value.includes('.')) return NextResponse.json({message: "Please input a whole number. No decimals."});
         let n_value : number = parseInt(params.n_value);
         if (Number.isNaN(n_value)) return NextResponse.json({message: "Input was not a number, please input a number >= 0"});
-        if (n_value < 1) return NextResponse.json({message: "Number greater than or equal to 0 only"});
+        if (n_value < 1) return NextResponse.json({message: "Please input a number greater than 0."});
         if (n_value > 76) n_value = 76;
         
         let fibonacciNumbers = await prisma.fibonacci.findMany(
