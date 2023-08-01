@@ -23,7 +23,7 @@ export async function seedInit() {
     console.log(`Test database seeding finished.`);
   };
 
-export async function seedDestory() {
+export async function seedDestroy() {
     let deleteRes = await prisma.testFibonacci.deleteMany({});
     console.log(`Delected ${deleteRes.count} entries in test database`);
     };
