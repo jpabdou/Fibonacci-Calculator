@@ -37,7 +37,7 @@ export async function GET(request: Request, {params} : {params: {n_value: string
             for (let entry of fibonacciNumbers.slice(originalIndex)) {
                 let result = prisma.testFibonacci.create({data: entry });
                 inserts.push(result);
-            }
+            };
             let transactionRes = await prisma.$transaction(inserts);
 
             return NextResponse.json({data:fibonacciNumbers, createdCount: transactionRes.length});
