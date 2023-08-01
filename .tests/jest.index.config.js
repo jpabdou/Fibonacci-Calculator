@@ -8,7 +8,7 @@ const createJestConfig = nextJest({
 // Add any custom config to be passed to Jest
 const customJestConfig = {
   testEnvironment: 'jest-environment-jsdom',
-  testMatch: ["**/.tests/index.test.tsx"]
+  testMatch: ["**/.tests/index.test.jsx"]
 }
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
