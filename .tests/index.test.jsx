@@ -33,7 +33,7 @@ describe('Home', ()=>{
         expect(submitBtn).toBeInTheDocument();
     });
 
-    it('shows form for number input and accepts inputs', async ()=>{
+    it('shows form for number input and accepts inputs for number and shows no alerts when submitting', async ()=>{
 
         mockRouter.push("/");
         render(<Home />);
@@ -50,7 +50,7 @@ describe('Home', ()=>{
         await waitFor(() => expect(screen.queryAllByRole("alert")).toHaveLength(0));
     });
 
-    it('shows error for negative number input', async ()=>{
+    it('shows error when submitting negative number input', async ()=>{
         const mockSubmit = jest.fn();
 
         mockRouter.push("/");
@@ -71,7 +71,7 @@ describe('Home', ()=>{
         
     });
 
-    it('accepts no input for text and shows error for no input submission on firing', async ()=>{
+    it('accepts no input for text and shows error for no input submission when submitting', async ()=>{
         const mockSubmit = jest.fn();
 
         mockRouter.push("/");
@@ -91,7 +91,7 @@ describe('Home', ()=>{
         expect(mockSubmit).not.toBeCalled();
     });
 
-    it('displays results for first 2 Fibonacci numbers and clicking on home link returns to home page', async ()=>{
+    it('displays Results page with first 2 Fibonacci numbers and clicking on home link returns to home page', async ()=>{
         const expectedRes1 = [
                 {
                     "id": 0,
@@ -117,7 +117,7 @@ describe('Home', ()=>{
         waitFor(()=>expect(mockRouter.pathname).toEqual('/')) 
     });
 
-    it('displays error message results for negative value as the params', async ()=>{
+    it('displays error message in Results page for negative value as the params', async ()=>{
      mockRouter.push("/results/-1");
      render(<Results params={ {n_value: "-1"} } />, 
      { wrapper: MemoryRouterProvider });
@@ -126,7 +126,7 @@ describe('Home', ()=>{
 
   });
 
-  it('displays error message results for non-integer as the params', async ()=>{
+  it('displays error message in Results page for non-integer as the params', async ()=>{
     mockRouter.push("/results/wrong");
     render(<Results params={ {n_value: "wrong"} } />, 
     { wrapper: MemoryRouterProvider });

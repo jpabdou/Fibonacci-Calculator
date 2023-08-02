@@ -97,7 +97,7 @@ describe('test server', ()=>{
 
         });
 
-        it('should return a successful 200 response for the first 5 Fibonacci numbers and create entries', async ()=>{
+        it('should return a successful 200 response for the first 5 Fibonacci numbers and created entries count', async ()=>{
             try {
                 const req : Request = new Request("http://localhost:3000/api/testcalc/5?testing=true");
                 const res = await GET(req, {params: {n_value: "5"}});
