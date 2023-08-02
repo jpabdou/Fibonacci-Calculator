@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import { calculation } from '@/app/api/calculate';
+import { FibonacciData } from '@/app/types/FibonacciData';
 let prisma = new PrismaClient();
 
 export async function GET(request: Request, {params} : {params: {n_value: string}}) {
@@ -20,21 +21,47 @@ export async function GET(request: Request, {params} : {params: {n_value: string
         // Next time, I would store the values as Text on SQLite and converted it to Number on TS to avoid this issue and allow for calculation up to Number.MAX_SAFE_INTEGER, 2^53-1. This new limitation would allow for storage of Fibonacci numbers up to the 78th Fibonacci value.
         if (n_value > 47) n_value = 47;
         
-        // findMany call of SQLite Fibonacci table, a 2 column table of id, which corresponds to the index within the Fibonacci sequence or n in Fibonacci(n), and of fibonacci_number, which corresponds to the Fibonacci number at n, or Fibonacci(n)
-        let fibonacciNumbers = await prisma.fibonacci.findMany(
-            {
-                where: 
+        // searchParams can contain a parameter "testing" that indicates the route should be accessing the testFibonacci table for testing, not the Fibonacci table for users
+        const { searchParams } = new URL(request.url!);
+        let testing : string = searchParams.get("testing") || "";
+
+        let fibonacciNumbers : FibonacciData[] = []
+
+        // Conditional deterimining if testing route is used or not and using the prisma model corresponding to the testFibonacci table and actual Fibonacci table exposed to users accordingly
+        if (testing.length > 0) {
+            // findMany call of SQLite Fibonacci table, a 2 column table of id, which corresponds to the index within the Fibonacci sequence or n in Fibonacci(n), and of fibonacci_number, which corresponds to the Fibonacci number at n, or Fibonacci(n)
+            fibonacciNumbers = await prisma.testFibonacci.findMany(
                 {
-                    id: 
+                    where: 
                     {
-                        lt: n_value
+                        id: 
+                        {
+                            lt: n_value
+                        }
+                    },
+                    orderBy: {
+                        id: 'asc'
                     }
-                },
-                orderBy: {
-                    id: 'asc'
                 }
-            }
-            );
+                );
+        } else {
+            fibonacciNumbers = await prisma.fibonacci.findMany(
+                {
+                    where: 
+                    {
+                        id: 
+                        {
+                            lt: n_value
+                        }
+                    },
+                    orderBy: {
+                        id: 'asc'
+                    }
+                }
+                );
+        }
+
+
 
         // Stores the length of returned array from the findMany call, fibonacciNumbers. The purpose of the originalIndex value is to check if new entries are added during the calculation of Fibonacci(n_value) and indicates where the index where these new entries begin
         const originalIndex : number = fibonacciNumbers.length;
@@ -47,12 +74,16 @@ export async function GET(request: Request, {params} : {params: {n_value: string
         // Function that pushes new Fibonacci entries to fibonacciNumbers when the Fibonacci(n_value) hasn't been returned from the database. Leaves array unmodified if Fibonacci(n_value) was included in the array.
         calculation(n_value, fibonacciNumbers);
 
-        // Conditional that checks if new entries were added to fibonacciNumbers from the calculation function. If so, creates an array of create calls to the Fibonacci table and processes them in a transactions. This is due to the fact that Prisma does not support SQLite bulk insert calls.
+        // Conditional that checks if new entries were added to fibonacciNumbers from the calculation function. If so, creates an array of create calls to the Fibonacci table and processes them in a transaction. This is due to the fact that Prisma does not support SQLite bulk insert calls.
         if (originalIndex !== fibonacciNumbers.length) {
             let inserts = [];
             for (let entry of fibonacciNumbers.slice(originalIndex)) {
-                let result = prisma.fibonacci.create({data: entry });
-                inserts.push(result);
+                if (testing.length > 0) {
+                    inserts.push(prisma.testFibonacci.create({data: entry }));
+                } else {
+                    inserts.push(prisma.fibonacci.create({data: entry }));
+                }
+
             }
             let transactionRes = await prisma.$transaction(inserts);
             // Returns response as a json with a data key with a value of a arry of Fibonacci entry objects up to Fibonacci(n_value) and a createdCount key with a number value equal to the number of new entries added to the database

@@ -1,10 +1,10 @@
-import {GET} from "../src/app/api/testcalc/[n_value]/route"
+import {GET} from "../src/app/api/fibcalc/[n_value]/route"
 import {seedInit, seedDestroy} from "../prisma/test-seed";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 describe('test server', ()=>{
-    describe('[GET] api/testcalc/calcuate', ()=>{
+    describe('[GET] api/fibcalc/calcuate', ()=>{
         const expectedRes1 = {
             "data": [
                 {
@@ -84,7 +84,7 @@ describe('test server', ()=>{
 
         it('should return a successful 200 response for the first 2 Fibonacci numbers', async ()=>{
             try {
-                const req : Request = new Request("http://localhost:3000/api/testcalc/2");
+                const req : Request = new Request("http://localhost:3000/api/fibcalc/2?testing=true");
                 const res = await GET(req, {params: {n_value: "2"}});
     
                 const {data} = await res.json();
@@ -99,7 +99,7 @@ describe('test server', ()=>{
 
         it('should return a successful 200 response for the first 5 Fibonacci numbers and create entries', async ()=>{
             try {
-                const req : Request = new Request("http://localhost:3000/api/testcalc/5");
+                const req : Request = new Request("http://localhost:3000/api/testcalc/5?testing=true");
                 const res = await GET(req, {params: {n_value: "5"}});
     
                 const {data, createdCount} = await res.json();
