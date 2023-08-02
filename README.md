@@ -6,6 +6,10 @@ A Fibonacci sequece calculation app that provides the first n Fibonacci numbers 
 <h2>How do I use this app?</h2>
 
 <ul>
+<li>Starting with the cloned repository or the unzipped archive of the repository, open Terminal or Commmand Prompt, navigate to the root of the "fibonacci-calc" directory, and enter `npm install` to install dependencies.
+
+<li>After waiting for the install to complete in Terminal or Command Prompt, enter `npm run dev` and open the site "http://localhost:3000" on your web browser. If port 3000 is in use, it might be a different name so check the url output on the terminal to confirm.
+
 <li>Start at the homepage with a form with a single entry for a number. The number you enter is the number of Fibonacci numbers you want to have calculated and displayed. 
 <img src="/images/2023-08-02 00.21.44 localhost 98ab2b53a433.jpg" alt="image of Fibonacci calculator homepage" />
 
