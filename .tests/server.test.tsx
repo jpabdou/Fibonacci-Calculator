@@ -93,7 +93,6 @@ describe('test server', ()=>{
             } catch (e) {
                 console.log(e);
             };
-
         });
 
         it('should return a successful 200 response for the first 5 Fibonacci numbers and created entries count', async ()=>{
@@ -108,10 +107,50 @@ describe('test server', ()=>{
                 expect(createdCount).toEqual(expectedRes2.createdCount);
             } catch (e) {
                 console.log(e);
-            };
+            };           
+        });
+        
+        it('should return a failed 400 response for string input as the param', async ()=>{
+            try {
+                const req : Request = new Request("http://localhost:3000/api/testcalc/wrong?testing=true");
+                const res = await GET(req, {params: {n_value: "wrong"}});
+    
+                const {message} = await res.json();
+    
+                expect(res.status).toBe(400);
+                expect(message).toEqual("Input was not a number, please input a number >= 0.");
+            } catch (e) {
+                console.log(e);
+            };   
+        });
 
+        it('should return a failed 400 response for 0 input as the param', async ()=>{
+            try {
+                const req : Request = new Request("http://localhost:3000/api/testcalc/0?testing=true");
+                const res = await GET(req, {params: {n_value: "0"}});
+    
+                const {message} = await res.json();
+    
+                expect(res.status).toBe(400);
+                expect(message).toEqual("Please input a number greater than 0.");
+            } catch (e) {
+                console.log(e);
+            };   
+        });
 
-            
+        it('should return a failed 400 response for float input as the param', async ()=>{
+            try {
+                const req : Request = new Request("http://localhost:3000/api/testcalc/3.0?testing=true");
+                const res = await GET(req, {params: {n_value: "3.0"}});
+    
+                const {message} = await res.json();
+    
+                expect(res.status).toBe(400);
+                expect(message).toEqual("Please input a whole number. No decimals.");
+            } catch (e) {
+                console.log(e);
+            };   
         });        
+        
 })
 })

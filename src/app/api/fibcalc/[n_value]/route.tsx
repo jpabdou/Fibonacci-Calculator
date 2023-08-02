@@ -13,7 +13,7 @@ export async function GET(request: Request, {params} : {params: {n_value: string
         // n_value is equal to the number of Fibonacci numbers requested
         let n_value : number = Number(params.n_value);
         // Conditional to ensure non-integers return an error message.
-        if (Number.isNaN(n_value)) return NextResponse.json({message: "Input was not a number, please input a number >= 0"}, {status: 400});
+        if (Number.isNaN(n_value)) return NextResponse.json({message: "Input was not a number, please input a number >= 0."}, {status: 400});
         // Conditional to ensure that non-zero, non-negative numbers return an error message. Can't request for 0 or negative numbers in a sequence.
         if (n_value < 1) return NextResponse.json({message: "Please input a number greater than 0."}, {status: 400});
         // Set the n_value to be no higher than 47. This is due to the fact that a Fibonacci number greater than Fibonacci(47) exceeds the Integer limitation in SQL, 2^32. 
