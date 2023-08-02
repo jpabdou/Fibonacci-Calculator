@@ -52,9 +52,9 @@ export default function Results( {params} : Props) {
         /* If no results are returned, then this is due to the API not being called as a result of the error setting conditonals. In this case, the error message is displayed. Otherwise, the comma-separated list of Fibonacci numbers is displayed. */
         results.length ===0 ? 
           <h1>{error}</h1> :
-          <div>
-            <h2 className='text-2xl font-bold my-3'>{`Here are the results for the first ${params.n_value} numbers in the Fibonacci sequence:`}</h2>
-            <p className="font-bold" data-testid="results">{results.slice(1,results.length-1)}</p>
+          <div className="w-3/4 flex flex-wrap flex-col">
+            <h2 className='text-2xl font-bold my-3'>{`Here are the results for the first ${Number(params.n_value) > 47 ? 47 : params.n_value} numbers in the Fibonacci sequence:`}</h2>
+            <p className="font-bold break-all" data-testid="results">{results.slice(1,results.length-1)}</p>
         </div>
       }
       
