@@ -12,8 +12,9 @@ export async function calculateFibonacci (num: number) {
         const response = await fetch(url, calcReq);
         // response from fetch to /api/fibcalc/[n_value] api call resolves to an object with a data key and created count key. 
         // Data key has a value of an array of objects. Each object has an id key with the value equal to n for Fibonacci(n) and a fibonacci_number key with the value equal to the Fibonacci number, F(n). Data array is sorted in ascending order by id.
-        // createdCount has a number value equal to the number of new Fibonacci data entries added to the Fibonacci table.
+        // createdCount has a number value equal to the number of new Fibonacci data entries added to the Fibonacci table. Made to indicate if new calculations were made.
         const fibonacciResults : {data: FibonacciData[], createdCount?: number} = await response.json();
+        // only returns the data array from fibonacciResults
         return fibonacciResults.data;
     } catch (e) {
       console.error(e)
