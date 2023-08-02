@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
-import { calculation } from '@/app/api/calculate';
+import { calculate } from '@/app/api/calculate';
 import { FibonacciData } from '@/app/types/FibonacciData';
 let prisma = new PrismaClient();
 
@@ -72,7 +72,7 @@ export async function GET(request: Request, {params} : {params: {n_value: string
         };
 
         // Function that pushes new Fibonacci entries to fibonacciNumbers when the Fibonacci(n_value) hasn't been returned from the database. Leaves array unmodified if Fibonacci(n_value) was included in the array.
-        calculation(n_value, fibonacciNumbers);
+        calculate(n_value, fibonacciNumbers);
 
         // Conditional that checks if new entries were added to fibonacciNumbers from the calculation function. If so, creates an array of create calls to the Fibonacci table and processes them in a transaction. This is due to the fact that Prisma does not support SQLite bulk insert calls.
         if (originalIndex !== fibonacciNumbers.length) {

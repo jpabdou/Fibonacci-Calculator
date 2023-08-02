@@ -31,7 +31,7 @@ export default function Results( {params} : Props) {
       return (
         setError("Number entered was less than or equal to 0. Please navigate back to home."));
     } else {
-      // Fetches array of Fibonacci number data objects, maps the array to an array of Fibonacci numbers, converts the array to a string, and sets the results state as the value
+      // Fetches array of Fibonacci number data objects, maps the array to an array of Fibonacci numbers, converts the array to a string through JSON.stringify, and sets the results state as the value
       calculateFibonacci(n)
         .then(res=>{
           let fibArr : number[] = [];
