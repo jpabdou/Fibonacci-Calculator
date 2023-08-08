@@ -1,5 +1,5 @@
 <h1>What is this project?</h1>
-A Fibonacci sequece calculation app that provides the first n Fibonacci numbers based on user input made with TypeScript, Next.js, SQLite, and Prisma.
+A Fibonacci sequece calculation app that provides the first n Fibonacci numbers based on user input made with TypeScript, Next.js, and Prisma. The database used was originally SQLite and currently is Postgres.
 
 ---
 
