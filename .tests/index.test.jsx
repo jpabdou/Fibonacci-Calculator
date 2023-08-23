@@ -92,19 +92,19 @@ describe('Home', ()=>{
     });
 
     it('displays Results page with first 2 Fibonacci numbers and clicking on home link returns to home page', async ()=>{
-        const expectedRes1 = [
+        const expectedRes = [
                 {
                     "id": 0,
-                    "fibonacci_number": 0
+                    "fibonacci_number": "0"
                 },
                 {
                     "id": 1,
-                    "fibonacci_number": 1
+                    "fibonacci_number": "1"
                 }
             ]
         ;
 
-       api.calculateFibonacci.mockResolvedValue(expectedRes1)
+       api.calculateFibonacci.mockResolvedValue(expectedRes)
        mockRouter.push("/results/2");
        render(<Results params={ {n_value: "2"} } />, 
        { wrapper: MemoryRouterProvider });
@@ -117,12 +117,22 @@ describe('Home', ()=>{
         waitFor(()=>expect(mockRouter.pathname).toEqual('/')) 
     });
 
-    it('displays error message in Results page for negative value as the params', async ()=>{
+    it('displays first Fibonacci number in Results page for negative value as the params', async ()=>{
+      const expectedRes = [
+        {
+            "id": 0,
+            "fibonacci_number": "0"
+        }
+    ];
+
+    api.calculateFibonacci.mockResolvedValue(expectedRes)
      mockRouter.push("/results/-1");
      render(<Results params={ {n_value: "-1"} } />, 
      { wrapper: MemoryRouterProvider });
       expect(screen.getByText("Results Page")).toBeInTheDocument();
-      expect(screen.getByText("Number entered was less than or equal to 0. Please navigate back to home.")).toBeInTheDocument();
+      expect(screen.getByText("Results Page")).toBeInTheDocument();
+      const results  = await screen.findByTestId("results");
+      expect(results).toBeInTheDocument();
 
   });
 

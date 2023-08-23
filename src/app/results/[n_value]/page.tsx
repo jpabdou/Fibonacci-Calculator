@@ -29,7 +29,7 @@ export default function Results( {params} : Props) {
       // Fetches array of Fibonacci number data objects, maps the array to an array of Fibonacci numbers, converts the array to a string through JSON.stringify, and sets the results state as the value
       calculateFibonacci(n)
         .then(res=>{
-          let fibArr : string[] = [];
+          let fibArr : number[] = [];
           fibArr = res!.map(ele=>{return Number(ele.fibonacci_number)});
           setLoading("");
           setError("");
@@ -50,7 +50,7 @@ export default function Results( {params} : Props) {
         error.length !==0 ? 
           <h1>{error}</h1> :
           <div className="w-3/4 flex flex-wrap flex-col">
-            <h2 className='text-2xl font-bold my-3'>{`Here are the results for the first ${Number(params.n_value) > 79 ? 79 : params.n_value} numbers in the Fibonacci sequence:`}</h2>
+            <h2 className='text-2xl font-bold my-3'>{`Here are the results for the first ${Number(params.n_value) > 79 ? 79 : (Number(params.n_value) < 1 ? 1 : params.n_value)} numbers in the Fibonacci sequence:`}</h2>
             <p className="font-bold break-all" data-testid="results">{results.slice(1,results.length-1)}</p>
         </div>
       }

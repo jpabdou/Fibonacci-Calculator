@@ -8,11 +8,11 @@ describe('test server', ()=>{
             "data": [
                 {
                     "id": 0,
-                    "fibonacci_number": 0
+                    "fibonacci_number": "0"
                 },
                 {
                     "id": 1,
-                    "fibonacci_number": 1
+                    "fibonacci_number": "1"
                 }
             ]
         };
@@ -21,29 +21,36 @@ describe('test server', ()=>{
             "data": [
                 {
                     "id": 0,
-                    "fibonacci_number": 0
+                    "fibonacci_number": "0"
                 },
                 {
                     "id": 1,
-                    "fibonacci_number": 1
+                    "fibonacci_number": "1"
                 },
                 {
                     "id": 2,
-                    "fibonacci_number": 1
+                    "fibonacci_number": "1"
                 },                
                 {
                     "id": 3,
-                    "fibonacci_number": 2
+                    "fibonacci_number": "2"
                 },
                 {
                     "id": 4,
-                    "fibonacci_number": 3
+                    "fibonacci_number": "3"
                 }
             ],
             "createdCount": 3
         };
 
-
+        const expectedRes3 = {
+            "data": [
+                {
+                    "id": 0,
+                    "fibonacci_number": "0"
+                }
+            ]
+        };
 
 
         beforeAll(async ()=>{
@@ -124,15 +131,16 @@ describe('test server', ()=>{
             };   
         });
 
-        it('should return a failed 400 response for 0 input as the param', async ()=>{
+        it('should return a successful 200 response for the first Fibonacci number for 0 input as the param', async ()=>{
             try {
                 const req : Request = new Request("http://localhost:3000/api/testcalc/0?testing=true");
                 const res = await GET(req, {params: {n_value: "0"}});
     
-                const {message} = await res.json();
     
-                expect(res.status).toBe(400);
-                expect(message).toEqual("Please input a number greater than 0.");
+                const {data} = await res.json();
+    
+                expect(res.status).toBe(200);
+                expect(data).toEqual(expectedRes3.data);
             } catch (e) {
                 console.log(e);
             };   

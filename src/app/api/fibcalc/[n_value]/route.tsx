@@ -14,7 +14,7 @@ export async function GET(request: Request, {params} : {params: {n_value: string
         let n_value : number = Number(params.n_value);
         // Conditional to ensure non-integers return an error message.
         if (Number.isNaN(n_value)) return NextResponse.json({message: "Input was not a number, please input a number >= 0."}, {status: 400});
-        // Conditional to ensure that non-zero, non-negative numbers return an error message. Can't request for 0 or negative numbers in a sequence.
+        // Set the n_value to be no less than 1. This is due to the fact that you can't show 0 or less Fibonacci numbers. 
         if (n_value < 1) n_value = 1;
         // Set the n_value to be no higher than 79. This is due to the fact that a Fibonacci number greater than Fibonacci(78) exceeds the Number.MAX_SAFE_INTEGER, 2^53-1. 
         if (n_value > 79) n_value = 79;
