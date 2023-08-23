@@ -4,11 +4,11 @@ const prisma = new PrismaClient();
 const fibonacciBase : Prisma.FibonacciCreateInput[] = [
     {
         id: 0,
-        fibonacci_number: 0
+        fibonacci_number: "0"
     },
     {
         id: 1,
-        fibonacci_number: 1
+        fibonacci_number: "1"
     }
 ];
 

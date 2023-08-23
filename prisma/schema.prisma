@@ -14,10 +14,10 @@ datasource db {
 
 model Fibonacci {
   id Int @id @unique
-  fibonacci_number Int
+  fibonacci_number String
 }
 
 model TestFibonacci {
   id Int @id @unique
-  fibonacci_number Int
+  fibonacci_number String
 }

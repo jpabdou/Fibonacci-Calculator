@@ -5,7 +5,7 @@ import "@testing-library/jest-dom/extend-expect";
 import mockRouter from "next-router-mock/async";
 import Results from "../src/app/results/[n_value]/page";
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
-import * as api from "../src/app/api/calculateFibonacci/calculateFibonacci"
+import * as api from "../src/app/public/calculateFibonacci"
 
 
 jest.mock('next/navigation', () => ({
@@ -13,7 +13,7 @@ jest.mock('next/navigation', () => ({
     usePathname: () => '/'
 }));
 
-jest.mock("../src/app/api/calculateFibonacci/calculateFibonacci");
+jest.mock("../src/app/public/calculateFibonacci");
 
 describe('Home', ()=>{
     it('renders a heading with welcome message, form input, and submit button', ()=>{

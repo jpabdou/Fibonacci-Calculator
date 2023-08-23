@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '../../prisma/prisma';
-import { calculate } from '@/app/api/calculate';
+import { prisma } from '../../../public/prisma';
+import { calculate } from '@/app/public/calculate';
 import { FibonacciData } from '@/app/types/FibonacciData';
 
 export async function GET(request: Request, {params} : {params: {n_value: string}}) {
@@ -15,10 +15,9 @@ export async function GET(request: Request, {params} : {params: {n_value: string
         // Conditional to ensure non-integers return an error message.
         if (Number.isNaN(n_value)) return NextResponse.json({message: "Input was not a number, please input a number >= 0."}, {status: 400});
         // Conditional to ensure that non-zero, non-negative numbers return an error message. Can't request for 0 or negative numbers in a sequence.
-        if (n_value < 1) return NextResponse.json({message: "Please input a number greater than 0."}, {status: 400});
-        // Set the n_value to be no higher than 47. This is due to the fact that a Fibonacci number greater than Fibonacci(47) exceeds the Integer limitation in SQL, 2^32. 
-        // Next time, I would store the values as Text on SQLite and converted it to Number on TS to avoid this issue and allow for calculation up to Number.MAX_SAFE_INTEGER, 2^53-1. This new limitation would allow for storage of Fibonacci numbers up to the 78th Fibonacci value.
-        if (n_value > 47) n_value = 47;
+        if (n_value < 1) n_value = 1;
+        // Set the n_value to be no higher than 79. This is due to the fact that a Fibonacci number greater than Fibonacci(78) exceeds the Number.MAX_SAFE_INTEGER, 2^53-1. 
+        if (n_value > 79) n_value = 79;
         
         // searchParams can contain a parameter "testing" that indicates the route should be accessing the testFibonacci table for testing, not the Fibonacci table for users
         const { searchParams } = new URL(request.url!);
@@ -67,7 +66,7 @@ export async function GET(request: Request, {params} : {params: {n_value: string
 
         // Conditional in case the database was deleted. Starts calculations and repopulates the database with entries for the base cases of the Fibonacci sequence, Fibonacci(0) and Fibonacci(1)
         if (fibonacciNumbers.length === 0) {
-            fibonacciNumbers = [{id: 0, fibonacci_number: 0}, {id: 1, fibonacci_number: 1}]
+            fibonacciNumbers = [{id: 0, fibonacci_number: "0"}, {id: 1, fibonacci_number: "1"}]
         };
 
         // Function that pushes new Fibonacci entries to fibonacciNumbers when the Fibonacci(n_value) hasn't been returned from the database. Leaves array unmodified if Fibonacci(n_value) was included in the array.

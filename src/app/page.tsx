@@ -21,7 +21,7 @@ export default function Home() {
         <h1 className='text-3xl font-bold'>Welcome to Fibonacci Calculator!</h1>
         <form onSubmit={handleSubmit(onSubmit)} className= "h-1/2 flex flex-col flex-wrap justify-evenly">
             <p>Enter the number <i>n</i> for the number of Fibonacci numbers you want to display up to F<sub>n-1</sub> (Enter a number greater than 0):<br/>
-              Note: Fibonacci numbers greater than the 47th number will not be displayed due to database limitations.
+              Note: Fibonacci numbers greater than the 79th number will not be displayed due to integer limitations in JavaScript.
             </p>
             {/* react hook form input with validation */}
             <input type="number" placeholder="Enter number here" {...register("n_value", {required: true, min: 1})} />

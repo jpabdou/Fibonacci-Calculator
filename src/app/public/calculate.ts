@@ -8,8 +8,8 @@ export function calculate (n_value : number, array : FibonacciData[]) {
     // Only risk of this logic is if earlier Fibonacci number entries were deleted for any reason. Can include a step where the function iterates over the entire array to check for missing entries, but it does add more time and make the calculation more costly.
     while (array.length < n_value) {
         let index : number = array.length-1;
-        let newFibonacci : number = array[index].fibonacci_number + array[index-1].fibonacci_number;
-        let newEntry : {id: number, fibonacci_number: number} = {id: array.length, fibonacci_number: newFibonacci };
+        let newFibonacci : number = Number(array[index].fibonacci_number) + Number(array[index-1].fibonacci_number);
+        let newEntry : {id: number, fibonacci_number: string} = {id: array.length, fibonacci_number: String(newFibonacci) };
         array.push(newEntry);
     }
 

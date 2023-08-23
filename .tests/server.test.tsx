@@ -1,6 +1,6 @@
 import {GET} from "../src/app/api/fibcalc/[n_value]/route"
 import {seedInit, seedDestroy} from "../prisma/test-seed";
-import { prisma } from "../src/app/api/prisma/prisma";
+import { prisma } from "../src/app/public/prisma";
 
 describe('test server', ()=>{
     describe('[GET] api/fibcalc/calcuate', ()=>{
