@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_Fibonacci_Calculator_1700164124640-push-trigger-input-set
+  identifier: Build_Fibonacci_Calculator_1700164124640pushtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: default_project
+  pipeline:
+    identifier: Build_Fibonacci_Calculator_1700164124640
+    properties:
+      ci:
+        codebase:
+          build:
+            type: branch
+            spec:
+              branch: <+trigger.branch>
