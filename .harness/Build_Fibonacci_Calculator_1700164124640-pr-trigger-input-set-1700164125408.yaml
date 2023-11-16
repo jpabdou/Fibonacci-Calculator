@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_Fibonacci_Calculator_1700164124640-pr-trigger-input-set
+  identifier: Build_Fibonacci_Calculator_1700164124640prtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: default_project
+  pipeline:
+    identifier: Build_Fibonacci_Calculator_1700164124640
+    properties:
+      ci:
+        codebase:
+          build:
+            type: PR
+            spec:
+              number: <+trigger.prNumber>
